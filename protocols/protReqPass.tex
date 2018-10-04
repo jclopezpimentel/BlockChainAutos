@@ -1,0 +1,29 @@
+\begin{table}[htb]
+\footnotesize
+\begin{center}
+\caption{Client registration process}
+\label{table:reqSessKey}
+\begin{tabular}{|l|}
+\hline
+%{\bf Process}                                                                \\\hline\hline
+%Initial Knowledge                                                             \\
+%$C:N_{C}\lnk K_{pub(S)}\lnk N'_{C} \lnk K'_{CS}$                              \\
+%$\Server: K_{pub(S)}\lnk K_{priv(S)}\lnk \Server\lnk N_{C}\lnk N_{C'}\lnk 
+%                      K'_{CS}$                                                \\ \hline \hline
+Initial Knowledge                                                             \\
+$\Client:K_{C\Server}\lnk [@::Pd]$                                                    \\
+$\Server: K_{C\Server}$                                                            \\ \hline \hline
+1.-$\Client\rightarrow \Server:\fat{[@::Pd]}_{K_{\Client\Server}}$                     \\
+\hspace{5mm} $X=f(Pd) $                           \\ 
+2.-$\Server\rightarrow \Client_e: \fat{@\lnk Pd \lnk X}_{K_{\Client_e\Server}} $                  \\ 
+\hspace{5mm} $\Client$ generates password $P$                          \\  
+3.-$\Client\rightarrow \Server:\fat{@\lnk Hash(P,X)}_{K_{\Client\Server}}$                 \\  
+\hspace{5mm} $\Server$ generates a pair key ($K_{pub(\Client)}$ and $K_{priv(\Client)}$)\\\hline  
+New Knowledge Accumulated                                                     \\
+$\Client:P\lnk X$                                                                \\
+$\Server: K_{pub(\Client)}\lnk K_{priv(\Client)}\lnk X \lnk Hash(P,X)\lnk [@::Pd]$       \\\hline \hline 
+\end{tabular}
+\end{center}
+\end{table}
+\normalsize
+

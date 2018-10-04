@@ -1,0 +1,121 @@
+\section{Outline}
+\label{sec:outline}
+
+%This section describes in words our general framework and describes
+%the general notation used to explain the formalism.
+
+\subsection{Outline for the Framework}
+\label{subsec:proposal}
+Figure~\ref{fig:flowChartFramework} illustrates a context diagram denoting
+the general stages a client must follow to get or set information about a car. 
+\begin{figure}[bt]
+ %\begin{center}
+  \centering
+    \includegraphics[scale=0.7]{images/gralScheme.pdf}
+        \caption{Diagram about the use of the framework from the client view}
+    \label{fig:flowChartFramework}
+ % \end{center}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{Stage I} consists in getting information of a car through reading
+    a QR code;
+  \item \textbf{Stage II} consists in establishing a secure channel. We
+    have used the TLS protocol because it is the standard in the
+    e-commerce and it has been subject to a lot of verification proofs.  
+  \item \textbf{Stage III} consists in to obtain services, authentication
+    is not required.   
+  \item \textbf{Stage IV:} consists in to obtain services or set transactions, 
+    authentication is required.  
+\end{itemize}
+
+\subsection{Stage I: Reading a QR Code from a Car}
+\label{sec:readingQR}
+
+QR code can be read quickly by many modern cell phones. It is used to take a piece of information from a 
+transitory media and put it in to your cell phone. It may give you details about a URL, vCard, plain text, etc.
+We have established that the QR code is going labeled in some part of the car and it must content in json format 
+the following data: 
+\textit{license plate}, 
+\textit{vehicle identification number}, 
+\textit{trademark}, 
+\textit{model}, 
+\textit{class}, 
+\textit{version}, and
+\textit{number of cylinders}.
+An example is as follows:
+
+\begin{lstlisting}
+    
+  {
+    plate:      "LVP6598", 
+    id:         "1FMYU02Z97KA580G2", 
+    tradeMark:  "Ford", 
+    model:      "2012", 
+    class:      "auto", 
+    version:    "TA XLS 4X2 I4 TELA 4 CIL", 
+    cylinders:  "L4"
+  }
+\end{lstlisting}
+
+The information in the QR code will be in plain-text because such an information is not sensitive and anyone 
+can obtain such data of any car.
+
+
+\subsection{Stage II: Establishing a secure channel}
+\label{sec:secureChannel}
+Messages transmitted on the Internet are sensitive to be seen for
+active or passive attackers who are able to manipulate them in order
+to take advantage of the situation.
+
+Transport Layer Security (TLS) and its predecessor, Secure Socket
+Layer (SSL), is a \emph{cryptographic protocol} that works over the transport 
+layer of TCP/IP. This protocol allows client/server agents to communicate 
+across a hostile network like Internet; eventually, only the server is authenticated. 
+Mutual authentication requires a public key infrastructure for clients. 
+
+We have used the TLS protocol because, besides being the 
+standard in e-commerce, the identity of the client is not
+relevant while consulting information. However, for transactions that 
+require authentication, then we have taken an additional step that we will 
+explain later. Note that, the following   
+
+Table~\ref{table:sslAndtlsProtocol} shows the protocol in Alice and Bob 
+notation, it has been adapted from \cite{lopez13} and its explanation is as follows:
+\begin{itemize}
+  \item Initially, $\Server$ denotes a trusted miner server. $\Client$ denotes
+    a user having read a QR code, and $\Servera$ denotes a server certification 
+    authority. $\Server$ knows its public and private key; all (client and servers) 
+    know their own identities. $\Servera$ knows all issued
+    public keys. Here $\Key$ denotes a set of all public keys.
+  \item Then, the following steps are carried out in order to
+    establish the secure tunneling:
+    \begin{itemize}
+    \item \textbf{First step:} a client connects to a TLS server
+      requesting a secure connection (in plain-text) and presents a list
+      of supported CipherSuites (ciphers and hash functions),
+      $[Lc]$. Each session is identified by a session id $N_{C}$. 
+    \item \textbf{Second step:} from list, the server picks the
+      strongest cipher and hash function that it also supports
+      ($f([Lc])$) and notifies the client of the decision. The server
+      sends back its identity in the form of a digital certificate and
+      in plain-text. The certificate and the plain-text usually contains
+      the server name $\Server$, the server's public encryption
+      key and the trusted certificate authority $\Servera$. 
+    \item \textbf{Third step:} the client may contact the
+      server that issued the certificate and confirms that the
+      certificate is valid before proceeding.
+    \item \textbf{Forth step:} the certification authority sends back to the 
+      client a confirmation about the credibility of the key.
+    \item \textbf{Fifth step:} in order to generate the session keys used for the
+      secure connection, the client encrypts a random number $N_{C'}$
+      with the server's public key and sends the result to the
+      server. Only the server should be able to decrypt it, using its
+      private key.  
+    \end{itemize}
+\item Finally, from the random number
+  and the session ids, both parts generate a
+  session key $K_{\Client\Server}$ for encryption and decryption. This new
+  knowledge will be used in the following stage.  
+\end{itemize}
+\input{protocols/tlsProtocol}

@@ -1,0 +1,35 @@
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+\usepackage{graphicx, soul} 
+\usepackage{color, soul} % soul pachage must be removed when the paper is ready
+\usepackage{listings}
+\include{lib/Authentication}
+
+\ifCLASSOPTIONcompsoc
+ \usepackage[nocompress]{cite}
+\else
+  \usepackage{cite}
+\fi
+
+\ifCLASSINFOpdf
+\else
+\fi
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\begin{document}
+        \input{sections/header.tex}
+        
+        \tableofcontents    % this line must be removed
+        
+       % \input{sections/introduction.tex}
+        \input{sections/fraud.tex}
+        \input{sections/clients.tex}
+        \input{sections/jcSections.tex} %Sections worked by JC      
+        
+         \input{sections/conclusion.tex}
+        
+        \input{sections/appendix.tex}
+        \input{sections/thanks.tex}
+        \input{sections/references.tex}
+\end{document}
+
+
