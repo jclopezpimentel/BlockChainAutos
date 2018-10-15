@@ -1,0 +1,55 @@
+\section{Client roles}
+
+According to the permissions the users should have, there will be five defined roles for them: 
+\textbf{U}ser,
+\textbf{D}ealership,
+\textbf{O}wner,
+\textbf{G}overnment, and
+\textbf{H}elper.
+Table \ref{table:operations} pinpoints the type of operations that each role can do and the explanation
+is as follows: 
+\begin{itemize}
+    \item Any \textbf{U}ser will have permissions sufficient to interact with the system in order to 
+        query and obtain information on the     vehicle. This role is also able to buy automobiles. 
+        These permissions will be granted to the user once he has established the secure channel. 
+    \item The {D}ealership is able to create automobiles because of that he is who creates the 
+        genesis block.
+    \item Every car will have one and only one \textbf{O}wner at a given time. The owner will be the only one 
+        that has permission to trade ownership, but also to request to the government to change legal
+        status. In addition, he can authorize when \textbf{H}elper adds some information about a car.
+    \item \textbf{G}overnment will have the ability to  \textit{change legal status} when the 
+        vehicle is involved in legal situations. For that, it will be necessary to establish 
+        different status: \textit{stolen}, \textit{arrested}, \textit{register owner} \textit{register plate}, 
+        \textit{unregister plate}, \textit{tax payment}, etc.
+    \item The \textbf{H}elper role is who receives a temporal permission from the \textbf{O}wner to set one 
+        transaction on the block-chain. The time frame for the temporal permission will be allotted by 
+        the \textbf{O}wner of the car. The car owner will set a special transaction to give the helper 
+        the permission. The helper role will be used for transactions that change one or more data of the 
+        car's properties. This will include official services, mechanical adjustments, big aesthetic 
+        modifications and insurance payments.
+\end{itemize}
+
+
+
+
+
+
+
+\begin{table}[htb]
+\footnotesize
+    \begin{center}
+    \caption{Type of operation}
+    \label{table:operations}
+        \begin{tabular}{l|l|l|l|l|l}
+        \textbf{Operation}          &\textbf{U}& \textbf{D}&\textbf{O}& \textbf{G}& \textbf{H}\\ \hline
+        Create (genesis block)      &          & X         &          &           &           \\ \hline
+        sell                        &          &           & X        &           &           \\ \hline
+        buy                         & X        &           &          &           &           \\ \hline
+        request change legal status &          &           & X        &           &           \\ \hline
+        change legal status         &          &           &          & X         &           \\ \hline
+        get information             & X        &           &          &           &           \\ \hline
+        add information             &          &           &          &           & X         \\ \hline
+        authorize add information   &          &           & X        &           &           \\ \hline
+        \end{tabular}
+    \end{center}
+\end{table}
