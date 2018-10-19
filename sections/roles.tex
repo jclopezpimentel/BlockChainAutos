@@ -1,28 +1,31 @@
 \subsection{Roles}
 
-According to the permissions the users should have, there will be five defined roles: 
+According to the permissions the users will have five defined roles: 
 \textbf{U}ser,
 \textbf{D}ealership,
 \textbf{O}wner,
 \textbf{G}overnment, and
 \textbf{H}elper.
+Each user could hold one or more roles.
 Table \ref{table:operations} pinpoints the type of operations that each role can do and the explanation
 is as follows: 
 \begin{itemize}
-    \item Any \textbf{U}ser will have permissions sufficient to interact with the system in order to 
-        query and obtain information on the     vehicle. This role is also able to buy cars. 
+    \item Any \textbf{U}ser will have enough permissions to interact with the system in order to 
+        obtain information on the vehicle (Section~\ref{sec:getServices}). This role is also able 
+        to buy cars, but it must be authenticated. 
         These permissions will be granted to the user once he has established the secure channel. 
-    \item The {D}ealership is able to create automobiles because of that he is who creates the 
+    \item The \textbf{D}ealership is able to manufacture vehicles because of that he is who creates the 
         genesis block.
     \item Every car will have one and only one \textbf{O}wner at a given time. The owner will be the only one 
         that has permission to trade ownership, but also to request to the government to change legal
-        status. In addition, he can authorize when \textbf{H}elper adds some information about a car.
+        status. In addition, he can request and authorize to \textbf{H}elper to add some information 
+        about a car.
     \item \textbf{G}overnment will have the ability to  \textit{change legal status} when the 
         vehicle is involved in legal situations. For that, it will be necessary to establish 
         different status: \textit{stolen}, \textit{arrested}, \textit{penalty}, \textit{registered owner}, \textit{plate}, 
         \textit{tax history}, etc.
     \item The \textbf{H}elper role is who receives a temporal permission from the \textbf{O}wner to set one 
-        transaction on the block-chain. The time frame for the temporal permission will be allotted by 
+        transaction on the block-chain. The time frame for the temporal permission will be authorized by 
         the \textbf{O}wner of the car. The car owner will set a special transaction to give the helper 
         the permission. The helper role will be used for transactions that change one or more data of the 
         car's properties. This will include official services, mechanical adjustments, big aesthetic 

@@ -1,21 +1,20 @@
-\section{Outline and Notation}
+\section{Outline}
 \label{sec:outline}
 
 %This section describes in words our general framework and describes
 %the general notation used to explain the formalism.
 
-In general there exists some characteristics we are looking for vehicles:
+\subsection{Outline for the Framework}
+\label{subsec:proposal}
+In general there exists some characteristics, in the vehicles, we are looking for:
 a) Provenance,
 b) Transparency with respects to purchase sale,
 c) Traceability with history transactions, owners and legal situations.
 
-To achieve that, we propose a model illustrated in Figure~\ref{fig:flowChartFramework}.
-
-
-\subsection{Outline for the Framework}
-\label{subsec:proposal}
-Figure~\ref{fig:flowChartFramework} illustrates a context diagram denoting
-the general stages a client must follow to get or set information about a car. 
+To achieve that, we have proposed a distributed model illustrated in the context
+diagram in Figure~\ref{fig:flowChartFramework}. Such a figure denotes
+the general stages (circled numbers) a user must follow to get or set information about a 
+vehicle:
 \begin{figure}[bt]
  %\begin{center}
   \centering
@@ -27,118 +26,42 @@ the general stages a client must follow to get or set information about a car.
 
 \begin{itemize}
   \item \textbf{Stage I} consists in getting information of a car through reading
-    a QR code or setting the QR code (this is the case when a company manufactures a car 
-    and generates the genesis block.
-  \item \textbf{Stage II} consists in establishing a secure channel. We
+    a QR code by any user or setting the QR code by a dealership (this is the 
+    case when a company manufactures a vehicle 
+    and generates the genesis block). Details in Section~\ref{ssec:qrcode}.
+  \item \textbf{Stage II} consists in establishing a secure channel between any user
+    and the \blockchaincarnetwork. We
     have used the TLS protocol because it is the standard in the
-    e-commerce and it has been subject to a lot of verification proofs.  
-  \item \textbf{Stage III} consists in to obtain services, authentication
-    is not required.   
-  \item \textbf{Stage IV:} consists in to obtain services or set transactions, 
-    authentication is required.  
+    e-commerce and it has been subject to a lot of verification proofs.
+    Details in Section~\ref{sec:secureChannel}.
+  \item \textbf{Stage III} consists in getting services such as provenance or 
+    traceability. Some services require authentication, but others do not.
+    Details in Section~\ref{sec:getServices}.  
+  \item \textbf{Stage IV:} consists in set transactions, for example how to build
+    the genesis block within the  \blockchaincarnetwork. Authentication is required. 
+    Details in Section~\ref{sec:transactions}. 
 \end{itemize}
 
-\subsection{Notation}
-%As you can see, our stages imply the use of cryptography,  and security protocol techniques. 
-% The following two sub-sections describe the notation used in the rest of
-% the document. 
-
-% \subsubsection{Host level notation}
-% \label{sec:hostLevel}
-Cryptography has two main mechanisms:
-\begin{itemize}
-  \item Symmetric cryptography, the same key is used to encode and
-    decode a message; by convention, symbol $\fat{m}_{K_{AB}}$ will be
-    used to denote that a message $m$ has been cyphered under the key
-    $K_{AB}$, which agents $A$ and $B$ know. \footnote{An agent is a 
-        computer process that uses the client-server technology to 
-        establish a network communication. Sometimes we will use the 
-        terms agent or client indistinctly.} 
-  \item Asymmetric cryptography, two keys are used to encode and
-    decode messages; an agent (e.g. $A$) has a key pair
-    (public $K_{pub(A)}$ and private $K_{priv(A)}$). One key used to
-    encode and the other one to decode (reciprocally); usually, key
-    $K_{priv(A)}$ is kept in secret. 
-\end{itemize}
-Table~\ref{table:conventions} summarizes previous notations:
-\begin{table}[htb]
-\footnotesize
-\begin{center}
-\caption{Conventions in types of messages and agents}
-\label{table:conventions}
-\begin{tabular}{|l|l|}
-\hline
-{\bf Abbreviation}& {\bf Description}                                   \\\hline\hline
-$A$, $B$, $C$       &  Agents or clients able to establish communication  \\
-                    &  with other agents or clients.                      \\ 
-$\Server$           &  A trusted agent, best known as trusted Miner-Server      \\
-$K$                 &  Symmetric key                                      \\
-$K_{AB}$            &  Symmetric key shared with agents $A$ and $B$       \\
-$K_{pub(A)}$        &  Public key of Agent $A$                            \\
-$K_{priv(A)}$       &  Private key of Agent $A$                           \\
-$\fat{m}_{K}$       &  Message $m$ cyphered under key $K$                 \\
-$m1\lnk m2$         &  $m1$ and $m2$ are concatenated using symbol $\lnk$ \\
-$N_a$, $N_b$, $N_c$ &  Nonces, which are random unguessable numbers      \\
-                    &  never been used before.                           \\ \hline \hline
-\end{tabular}
-\end{center}
-\end{table}
-\normalsize
-
-% \subsubsection{Notation at network level}
-% \label{sec:networkLevel}
-For easy representation issues we will use Alice and Bob notation to 
-describe Client-Server communication, see table~\ref{table:NetConventions}.
-%three views (see ): i) initial knowledge;
-%ii) message sending and message reception; and iii) the local process
-%representation.
-\begin{table}[htb]
-\footnotesize
-\begin{center}
-\caption{Conventions in network level}
-\label{table:NetConventions}
-\begin{tabular}{|l|l|}
-\hline
-{\bf Abbreviation}                      & {\bf Description}                    \\\hline\hline
-\textbf{Initial knowledge:}             &                                      \\
-$A : ik$                                &  Initially agent $A$ knows $ik$.    \\ \hline 
-\textbf{Message Sending and Receiving:} &  At step $n$ agent $A$ sends         \\ 
-$n. A \rightarrow B: m$                 &  message $m$ to agent $B$,\\
-                                        &  which $B$ receives.      \\ \hline 
-$n. A\rightarrow B: m$                  &  message $m2$ was generated \\ 
-\hspace{5mm}\textbf{Local process:}     &  Between steps $n$ and $n2$,    \\ 
-\hspace{5mm}$m2 = f(m)$                 &  by $B$ as a local process \\ 
-$n2. B\rightarrow A: m2$                &  generated from $f(m)$.     \\ \hline 
-\textbf{Broadcast:}                     &  $A$ broadcasts message to agents\\ 
-$A \rightarrow [B, C, D]: m$            &  $B$, $C$ and $D$.\\ \hline \hline 
-\end{tabular}
-\end{center}
-\end{table}
-\normalsize
-
-
-$$$$
-
-
-\subsection{The QR Code of a Car}
-
+\subsection{Stage I: The QR Code of a Vehicle}
+\label{ssec:qrcode}
 QR code can be read quickly by many modern cell phones. It is used to take a piece of information from a 
 transitory media and put it in to your cell phone. It may give you details about a URL, vCard, plain text, etc.
-The QR code must be generated by leaderships who build cars and some data of that
-can be obtained while reading the QR code.
 
 \subsubsection{Setting a QR Code in a Car}
 \label{sssec:settingQR}
-We have established that the QR code must be labeled in some part of the car and it must content in json format 
-the following data: 
+The QR code must be generated by dealerships who manufactures vehicles and they must place the code
+in both: physically in the vehicle and virtually in the invoice.
+
+We have established that the QR code must be labeled in some part of the car and it must content,  
+in json format, the following data: 
 \textit{vehicle identification number}, 
 \textit{trademark}, 
 \textit{model}, 
 \textit{class}, 
 \textit{version}, and
-\textit{number of cylinders}.
-
-These attributes are own of a car, an example in JSON format is as follows:
+\textit{number of cylinders}; 
+among others. These attributes are own of a car, and they do not change with time.  
+An example in JSON format is as follows:
 \begin{lstlisting}
   {
     id:         "1FMYU02Z97KA580G2", 
@@ -154,10 +77,10 @@ The information in the QR code will be in plain-text because such an information
 can obtain such data of any car.
 
 
-\subsubsection{Reading a QR Code from a Car}
+\subsubsection{Reading a QR Code}
 \label{sssec:readingQR}
 
-First, we propose to develop an application able to read a QR code (currently most smartphones contain it).
+First, we propose an application able to read a QR code (currently most smartphones contain it).
 The smartphone application will be able to connect with the \blockchaincarnetwork in order to do different 
 operations (See Table~\ref{table:operations} to know a list of operations). 
 
@@ -167,61 +90,5 @@ actually, when is running connects with a miner, denoted as \Server, within the 
 %Throughout this document, we refer to \QR code as the information obtained after a reading 
 %process. 
 
+\input{sections/tls}
 
-\subsection{Stage II: Establishing a secure channel}
-\label{sec:secureChannel}
-Messages transmitted on the Internet are sensitive to be seen for
-active or passive attackers who are able to manipulate them in order
-to take advantage of the situation.
-
-Transport Layer Security (TLS) and its predecessor, Secure Socket
-Layer (SSL), is a \emph{cryptographic protocol} that works over the transport 
-layer of TCP/IP. This protocol allows client/server agents to communicate 
-across a hostile network like Internet; eventually, only the server is authenticated. 
-Mutual authentication requires a public key infrastructure for clients. 
-
-We have used the TLS protocol because, besides being the 
-standard in e-commerce, the identity of the client is not
-relevant while consulting information. However, for transactions that 
-require authentication, then we have taken an additional step that we will 
-explain later. Note that, the following   
-
-Table~\ref{table:sslAndtlsProtocol} shows the protocol in Alice and Bob 
-notation, it has been adapted from \cite{lopez13} and its explanation is as follows:
-\begin{itemize}
-  \item Initially, $\Server$ denotes a trusted miner server. $\Client$ denotes
-    a user having read a QR code, and $\Servera$ denotes a server certification 
-    authority. $\Server$ knows its public and private key; all (client and servers) 
-    know their own identities. $\Servera$ knows all issued
-    public keys. Here $\Key$ denotes a set of all public keys.
-  \item Then, the following steps are carried out in order to
-    establish the secure tunneling:
-    \begin{itemize}
-    \item \textbf{First step:} a client connects to a TLS server
-      requesting a secure connection (in plain-text) and presents a list
-      of supported CipherSuites (ciphers and hash functions),
-      $[Lc]$. Each session is identified by a session id $N_{C}$. 
-    \item \textbf{Second step:} from list, the server picks the
-      strongest cipher and hash function that it also supports
-      ($f([Lc])$) and notifies the client of the decision. The server
-      sends back its identity in the form of a digital certificate and
-      in plain-text. The certificate and the plain-text usually contains
-      the server name $\Server$, the server's public encryption
-      key and the trusted certificate authority $\Servera$. 
-    \item \textbf{Third step:} the client may contact the
-      server that issued the certificate and confirms that the
-      certificate is valid before proceeding.
-    \item \textbf{Forth step:} the certification authority sends back to the 
-      client a confirmation about the credibility of the key.
-    \item \textbf{Fifth step:} in order to generate the session keys used for the
-      secure connection, the client encrypts a random number $N_{C'}$
-      with the server's public key and sends the result to the
-      server. Only the server should be able to decrypt it, using its
-      private key.  
-    \end{itemize}
-\item Finally, from the random number
-  and the session ids, both parts generate a
-  session key $K_{\Client\Server}$ for encryption and decryption. This new
-  knowledge will be used in the following stage.  
-\end{itemize}
-\input{protocols/tlsProtocol}

@@ -1,9 +1,8 @@
-\section{Get Services}
-\label{sec:Services}
+\section{Protocols to get services}
+\label{sec:getServices}
 Figure~\ref{fig:dfdForAuthServices} illustrates a Data Flow Diagram (DFD) about consuming  
 services and set transactions. The Figure shows the scenarios when authentication is or 
-not required.
-
+not required. Independently of that, the secure channel is required.
 
 \begin{figure}[bt]
  %\begin{center}
@@ -14,20 +13,51 @@ not required.
  % \end{center}
 \end{figure}
 
+\begin{table}[htb]
+\footnotesize
+    \begin{center}
+    \caption{Services marked if require or nor authentication }
+    \label{table:servicesPermits}
+        \begin{tabular}{l|l|l|l}
+			\textbf{Num.}&\textbf{Service}		 &Yes    &Not    \\ \hline
+             1			 &Theft report           &       &X      \\ \hline
+             2			 &Debt report            &       &X       \\ \hline
+             3			 &Basic characteristics  &       &X       \\ \hline
+             4			 &Owners                 &X      &       \\ \hline
+             5			 &Arrested history       &X      &       \\ \hline
+             6			 &Penalties              &X      &       \\ \hline
+             7			 &Tax history            &X      &       \\ \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+
 \subsection{Getting services without authentication}
 \label{ssec:getServNoAuth}
+We think that some services must be available for all users and without the need to be 
+authenticated (achieving thus transparency) for example, to know:
+\begin{itemize}
+    \item If a vehicle hold currently a theft report.
+    \item If a vehicle hold currently a debt report.
+    \item Some basic characteristics such as \textit{trademark}, \textit{model}, 
+        \textit{class}, \textit{version} and \textit{cylinders}.
+\end{itemize}
+Table~\ref{table:servicesPermits} defines what services require or not authentication.
 
-Table~\ref{table:ProtGetServicesNoAuth} describes the process in
-Alice and Bob notation, the explanation is as follows:  
+The network connection starts when a user $C$ contacts to the \blockchaincarnetwork through 
+miner $\Server$. Table~\ref{table:ProtGetServicesNoAuth} describes how to get services in
+Alice and Bob notation, the explanation is as follows:
 \begin{itemize}
   \item  The initial knowledge consists in all values learned by the client and the miner 
-        after completed the secure channel stage.
+        after completed the secure channel stage (described in Section~\ref{sec:secureChannel}).
    \item The request of a service consists in sending an identity $C$, the data of the $QR$ code, and a 
         number $n$ denoting the number of service that is requested to be consumed. 
         The client ciphers  these messages using the secret key $K_{C\Server}$ obtained in
         the secure channel stage (see Section~\ref{sec:secureChannel}).
-   \item The miner verifies if such a service can be consumed (according permissions) and then, 
-        returns the answer $d$; ciphered using, again, the secret key $K_{C\Server}$.
+   \item The miner (having a copy of all blockchains within the \blockchaincarnetwork) verifies 
+        if such a service can be consumed (according permissions) and then, 
+        returns the answer $d$; ciphered using, again, the shared secret key $K_{C\Server}$. Finally,
+        $C$ decodes the message and shows the information $d$ to the user.
 \end{itemize}
 
 
@@ -35,12 +65,15 @@ Alice and Bob notation, the explanation is as follows:
 
 \subsection{Get Services with authentication}
 \label{ssec:ServAuth}
-Sometimes it will be necessary to know who is consuming some services; for that, client and
-miner are required to be authenticated. The authentication procedure requires a \textit{username} 
-and a \textit{password}, which are developed after the \textit{registration process}. 
+Sometimes it will be necessary to know who is consuming some services; or maybe the service consumes extra 
+computational power. For that, client and miner must be authenticated. 
 
+Transport Layer Security (TLS) allows client/server agents to communicate 
+across a hostile network, but eventually, only the server is authenticated. 
+Mutual authentication requires a public key infrastructure for clients, which
+we achieve by mean a \textit{registration process}. 
 
-\subsubsection{Client Registration Process}
+\subsubsection{Registration with the Blockchain vehicle wallet}
 \label{sec:Registration}
 
 This part consists in to establish a \textit{username} and a \textit{password}, which
@@ -50,24 +83,30 @@ will be mapped with an identity. The \textit{username} must be a valid email and
 Table~\ref{table:reqSessKey} summarizes the protocol
 in Alice\&Bob notation, its description is as follows: 
 \begin{itemize}
-  \item Firstly, the user must establish a secure channel with the miner 
+  \item Firstly, the user must establish a secure channel with the miner-vehicle-wallet\footnote{
+    we will use server-wallet to abbreviate miner-vehicle-wallet.} 
     (see Section~\ref{sec:secureChannel}). In this step all exchanged messages are ciphered 
-    using the symmetric key $K_{C\Server}$, which was obtained during the TLS protocol. 
-  \item Secondly, the user must generate
-    his username and password through the following steps:
+    using the symmetric key $K_{C\ServerW}$, which was obtained during the TLS protocol. 
+  \item Secondly, the user must generate his key pair (public and private) through
+    his username and password executing the following steps:
     \begin{itemize}
     \item \textbf{First step:} the client sends his username denoted with his email $@$, and  
         a list of personal data $Pd$. 
-    \item \textbf{Second step:} the server sends back the user via an email server $\Client_e$ a 
+    \item \textbf{Second step:} the server-wallet sends back the user via an email server $\Client_e$ a 
         data obtained of the client's personal information, $Pd$ and a challenge $X=f(Pd)$. 
     \item \textbf{Third step:} then, the client must generate the final password $P$, but
       only the hash is sent, $Hash(P,X)$.  Sending $Hash(P,X)$, we can
-      ensure that $P$ will be only known by $\Client$.  
+      ensure that $P$ will be only known by $\Client$.
+    \item \textbf{Fourth step:} the miner-wallet creates a public and private key for the client 
+        ($K_{pub(\Client)}$ and $K_{priv(\Client)}$), which the system maps with the client and 
+        the hashed password; builds a block $bp$ containing the public key of the client and broadcasts
+        it to the \blockchaincarnetwork to do the mining process. 
+    \item \textbf{Fifth step:} After the mining process, the miner-wallet provides to the $\Client$ the 
+        public and private key; which will be used to do transactions. 
     \end{itemize}
-  \item Finally, the miner creates a public and private key for the client ($K_{pub(\Client)}$ 
-        and $K_{priv(\Client)}$), which the system maps with the client and the hashed password. 
-        Note that, such public and private keys are unknown directly by $\Client$. 
 \end{itemize}
+Note that, any user could transact a lot of accounts with the miner-wallet, but each of their 
+vehicle-wallet would be empty.
 
 \input{protocols/protReqPass}
 
@@ -107,7 +146,9 @@ to implement more security mechanisms (like authentication procedure) to
 avoid possible attacks.
 
 The goal of this stage is to establish authentication between a client and 
-a miner after having a secure tunneling. Table~\ref{table:AuthProtocol} 
+a miner after having a secure tunneling. Note that, public and private key
+of the user are not used for the authentication process, it is only used to
+do transactions. Table~\ref{table:AuthProtocol} 
 describes the authentication part and the explanation is as follows:
 
 \begin{itemize}
@@ -124,7 +165,7 @@ describes the authentication part and the explanation is as follows:
       miner $N_\Client$. The miner can map $@$ with $\Client$ and build $hash(@\lnk\Client\Server\lnk N_\Client)$. This message is ciphered with $K_{\Client\Server}$ because the session key has been destined for them. 
     \item \textbf{Second step:} the server responds to the client with a new challenge,
       firstly includes the client name $C$ (which is mapped with $@$) and a hashed message
-      composed by $N_{\Client}$ and $X$ both messages must be known by the client. Again,
+      $Y$ composed by $N_{\Client}$ and $X$ both messages must be known by the client. Again,
       all ciphered with $K_{\Client\Server}$.
     \item \textbf{Third step:} Once the client has accepted the previous step, it means that
       he has deduced all previous messages and he has authenticated to the miner, so, the 
@@ -139,6 +180,28 @@ describes the authentication part and the explanation is as follows:
 
 \subsubsection{Get Services with authentication}
 \label{ssec:getServAuth}
+Some services are available only after the authentication process, for example, to know:
+\begin{itemize}
+    \item A history of owners
+    \item If the vehicle has been arrested and how many times
+    \item The number of penalties
+    \item A history of taxes.
+\end{itemize}
+
+See Table~\ref{table:servicesPermits} to identify what services require authentication.
+Table~\ref{table:ProtGetServicesAuth} describes in Alice and Bob notation how to get services 
+requiring an authentication process, the explanation is similar to that in 
+Section~\ref{ssec:getServNoAuth}. As you can see, the difference with respects to 
+Table~\ref{table:ProtGetServicesNoAuth}, where authentication is not required, is that in steps
+1 and 2, the hashed message $Y$ is include.
+
+Here, after step 1, the miner verifies if such a service can be consumed (according permissions, see
+Table~\ref{table:servicesPermits}) and then, returns the answer $d$; in a ciphered way as above was 
+explained.
+
+
+
+
 
 
 \input{protocols/protGetServAuth}

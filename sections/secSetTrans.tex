@@ -1,5 +1,5 @@
 \section{Transactions}
-
+\label{sec:transactions}
 
 \input{sections/roles} %added by JC
 
@@ -8,7 +8,7 @@
 \label{ssec:setTrans}
 
 As shown by Table~\ref{table:ProtSetTrans} the participants in a transaction 
-are the client and a miner.
+are a client (acting any role) and a miner.
 The client knows the $QR$ code through a scan process with
 a car; a secret shared key $K_{\Client\Server}$ established with
 a miner in the secure channel process; a proof to have been authenticated
@@ -19,55 +19,28 @@ The miner obviously knows also $K_{\Client\Server}$ and $N_{\Client\Server}$.
     \item The protocol starts when the client $\Client$ builds the transaction 
         data $t$, the signature of the transaction $\fat{t}_{K_{priv(C)}}$ and sends
         all to the miner $\Server$; all ciphered with the 
-        session key $K_{\Client\Server}$.
-        The transaction data $t$, using function $setTransaction(\QR,T,N_{\Client\Server})$, 
-        is constituted as follows:
-        
-        \begin{tabular}{lll}
-                &               & \\ 
-            \{  &               &    \\
-                & registered:   & "true" 
-                & plate:        & "LVP6598", \\
-                & id:           & "1FMYU02Z97KA580G2", \\
-                & timestamp:    & "18/09/2018 9:16:34am", \\
-                & nonce:         & $N_{\Client\Server}$, \\
-                & pubKey:       & $K_{pub(X)}$, \\
-                & miner:        & M, \\
-                & client:       & C, \\
-                & transaction:  & T=$\fat{operation}_{priv(X)}$ \\
-            \}  &               &   \\
-        \end{tabular}
-        
-        Both \textit{plate} and \textit{id} are used to identify the car, 
-        \textit{timestamp} used to identify the time, $N_{\Client\Server}$
-        used to distinguish the session; the public key $K_{pub(X)}$
-        of the next owner client, it could be the own $\Client$ or another
-        owner;
-        \textit{miner} and 
-        \textit{client} fields to identify the participants in the transaction; 
-        and $T$ stating
-        what kind of operation is carrying out (see Table~\ref{table:operations}).
+        session key $K_{\Client\Server}$. 
     \item Having the miner accepted the previous message (verifying the  
         session with $N_{\Client\Server}$ and all received messages), he proceeds to build 
         the block $b$ and broadcasts it to all miners $\Server\rightarrow [\Server_i .. \Server_n]$
-        in order to execute a mining process; 
-        this message is ciphered under \hl{the Ethereum plataform...}
-        Block $b$ is as follows:
-        \begin{tabular}{lll}
-                &               & \\ 
-            \{  &               &    \\
-                & dataTran:     & t,  \\
-                & previousHash: & "000dc75a3...7cf", \\
-                & hash:         & "000d20368...1b8",\\
-                & blockId:      & 1,\\
-                & nonce:        & "42543524",\\
-                & timestamp:    & "18/09/2018 9:40:44am" \\
-            \}  &               &   \\
-        \end{tabular}
+        in order to execute a mining process within the \blockchaincarnetwork.
+        \hl{See Section}~\ref{subsec:examplesTrans} for example of blocks and transactions.
+
+%        \begin{tabular}{lll}
+%                &               & \\ 
+%            \{  &               &    \\
+%                & dataTran:     & t,  \\
+%                & previousHash: & "000dc75a3...7cf", \\
+%                & hash:         & "000d20368...1b8",\\
+%                & blockId:      & 1,\\
+%                & nonce:        & "4254352343223344",\\
+%                & timestamp:    & "18/09/2018 9:40:44am" \\
+%            \}  &               &   \\
+%        \end{tabular}
         
     \item The miner solving the challenge $\Server_x$, returns again the block, $b'$, 
         but now it is mined. 
-    \item Within the \hl{Ethereum Network} there exists a parity node\footnote{
+    \item Within the \blockchaincarnetwork there exists a parity node\footnote{
             A parity node is a miner that is close with another and they have usual
             peer to peer communication.
         } to the miner $\Server$
@@ -77,3 +50,49 @@ The miner obviously knows also $K_{\Client\Server}$ and $N_{\Client\Server}$.
 \end{enumerate}
 
 \input{protocols/protSetTransactions.tex}
+
+\subsection{Examples of Data Transactions}
+\label{subsec:examplesTrans}
+
+According to Table~\ref{table:operations} there exists nine operations that users can
+execute depending the type of role they are.
+
+\subsection{Genesis block}
+Let start with the data of the \textbf{genesis block}, which would be as follows:
+        \begin{tabular}{lll}
+                &               & \\ 
+            \{  &               &    \\
+			    & id:           & "1FMYU02Z97KA580G2",			\\	
+			    & tradeMark:    & "Ford", 						\\	
+			    & model:        & "2012", 						\\	
+			    & class:        & "auto", 						\\	
+			    & version:      & "TA XLS 4X2 I4 TELA 4 CIL", 	\\	
+			    & cylinders:    & "L4"							\\	
+                & timestamp:    & $T_c$, \\
+                & nonce:        & $N_{\Client\Server}$, \\
+                & pubKey:       & $K_{pub(D)}$, \\
+                & miner:        & $Hash(\Server)$, \\
+                & client:       & $Hash(\Client)$, \\
+                & type:         & "genesis", \\
+                & priceV:       & $\$_1$    \\
+                & gas:          & $\$_2$        \\
+                & transaction:  & $Hash(\fat{create\lnk \$_1 \lnk \$_2 \lnk N_{\Client\Server}}_{priv(D)})$ \\
+                & prevHash:     & 0 \\
+                & rootHash:     & $Hash(b)$ \\
+            \}  &               &   \\
+        \end{tabular}
+
+Attributes \textit{id}, \textit{tradeMark}, \textit{model}, \textit{class}, 
+\textit{version} and \textit{cylinders} are built only the first time when 
+a vehicle is manufactured; 
+next attribute, \textit{timestamp} is used to identify when the block is created; 
+\textit{nonce}$:N_{\Client\Server}$ used to distinguish the session; 
+\textit{pubKey} is the public key $K_{pub(D)}$ of the \textbf{D}ealership (and also the next owner); 
+\textit{miner} and \textit{client} fields are hashed to identify the participants in the current 
+transaction; 
+\textit{type} in order to know the type of operation; 
+\textit{price} includes the cost of manufacturing of the vehicle;
+\textit{gas} is the cost of the transaction;
+\textit{transaction} to specify the operation in detail; \textit{prevHash} specifies the previous
+block hash but in this case is 0 because of the genesis block; and \textit{rootHash} being the current 
+block $b$ hashed.
