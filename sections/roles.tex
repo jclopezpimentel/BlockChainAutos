@@ -43,17 +43,18 @@ is as follows:
     \begin{center}
     \caption{Type of operation}
     \label{table:operations}
-        \begin{tabular}{l|l|l|l|l|l}
+        \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
         \textbf{Operation}          &\textbf{U}& \textbf{D}&\textbf{O}& \textbf{G}& \textbf{H}\\ \hline
         Create (genesis block)      &          & X         &          &           &           \\ \hline
+        get information             & X        &           &          &           &           \\ \hline\hline
         sell                        &          &           & X        &           &           \\ \hline
-        buy                         & X        &           &          &           &           \\ \hline
+        buy                         & X        &           &          &           &           \\ \hline\hline
         request change legal status &          &           & X        &           &           \\ \hline
-        change legal status         &          &           &          & X         &           \\ \hline
-        get information             & X        &           &          &           &           \\ \hline
-        add information             &          &           &          &           & X         \\ \hline
+        change legal status         &          &           &          & X         &           \\ \hline\hline
         request to add information  &          &           & X        &           &           \\ \hline
-        authorize add information   &          &           & X        &           &           \\ \hline        
+        add information             &          &           &          &           & X         \\ \hline
+        authorize add information   &          &           & X        &           &           \\ \hline
         \end{tabular}
     \end{center}
 \end{table}

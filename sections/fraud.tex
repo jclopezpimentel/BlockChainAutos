@@ -4,7 +4,14 @@ The process of the selling is described bellow:
 \begin{itemize}
     \item The buyer checks that no legal problems are involved with the vehicle. An online check can be done with the plates numbers. 
     \item The buyer makes the car payment
-    \item The seller generates an electronic bill for the value of the car.
+    \item The seller generates an electronic bill for the value of the car and acknowledges payment from the buyer.
     \item The seller gives possession of the car to the buyer.
-    \item The change of ownership is notified to the city government.
+    \item The change of ownership is notified to the city government. 
+    \item The old plates are discarded and a new set of plates is given the new owner.
 \end{itemize}
+
+This work flow has a vulnerability between steps $2$ and $3$. The electronic bill generated in step $2$ can be generated even without the existence of a physical car. A malicious seller could generate multiple bills and give them to multiple people before they realize the car doesn't exist physically. A certain level of \textit{trust} must exist between buyer and seller for the exchange to happen. And this \textit{trust} can be maligned. 
+
+This fraud is specially common on car sales between private owners for a couple reasons. The first one is the high value of this commodity, which makes it a low risks - high stakes trade-off for fraudsters. The other one comes with the definition of car: A portable, efficient, and maneuverable transportation vehicle that can be easily removed from the transaction scene and hidden afterwards.
+
+Due to the lack of immediate retaliation available to the criminal, he has a time frame where the fraud could be repeated multiple times, even if finally, the car exchange takes place with an Innocent buyer afterwards.

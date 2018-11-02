@@ -54,27 +54,33 @@ in both: physically in the vehicle and virtually in the invoice.
 
 We have established that the QR code must be labeled in some part of the car and it must content,  
 in json format, the following data: 
-\textit{vehicle identification number}, 
+\textit{id=vehicle identification number}, 
 \textit{trademark}, 
 \textit{model}, 
 \textit{class}, 
-\textit{version}, and
-\textit{number of cylinders}; 
-among others. These attributes are own of a car, and they do not change with time.  
-An example in JSON format is as follows:
-\begin{lstlisting}
-  {
-    id:         "1FMYU02Z97KA580G2", 
-    tradeMark:  "Ford", 
-    model:      "2012", 
-    class:      "auto", 
-    version:    "TA XLS 4X2 I4 TELA 4 CIL", 
-    cylinders:  "L4"
-  }
-\end{lstlisting}
+\textit{version}, 
+\textit{number of cylinders}, and
+among \textit{others}. These attributes are own of a vehicle, and they do not 
+change with time. An example in JSON format is as follows:
+\begin{table}[h]
+    \centering
+    \caption{Genesis information about the vehicle}
+    \begin{tabular}{lll}
+       \{&         			&    							\\
+         & id:        		& "1FMYU02Z97KA580G2", 			\\
+         & tradeMark: 		& "abcd", 						\\
+         & model:     		& "2012", 						\\
+         & class:     		& "auto", 						\\
+         & version:   		& "TA XLS 4X2 I4 TELA 4 CIL", 	\\
+         & cylinders: 		& "L4" 							\\
+       \}& 		        	& 								\\
+       ::& \textit{others}	&								\\
+    \end{tabular}
+    \label{table:genesisInfo}
+\end{table}
 
-The information in the QR code will be in plain-text because such an information is not sensitive and anyone 
-can obtain such data of any car.
+The information in the QR code will be in plain-text because such an information is not 
+sensitive and anyone can obtain such data of any car.
 
 
 \subsubsection{Reading a QR Code}
