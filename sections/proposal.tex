@@ -1,0 +1,39 @@
+\subsection{The Proposal}
+\label{subsec:proposal}
+In general there exists some characteristics, in the vehicles, we are looking for:
+a) Provenance,
+b) Transparency with respects to purchase sale,
+c) Traceability with history transactions, owners and legal situations.
+
+To achieve that, we have proposed a distributed model illustrated in the context
+diagram in Figure~\ref{fig:flowChartFramework}. Such a figure denotes
+the general stages (circled numbers) a user must follow to get or set information about a 
+vehicle:
+\begin{figure}[bt]
+ %\begin{center}
+  \centering
+    \includegraphics[scale=0.75]{images/gralScheme.pdf}
+        \caption{Diagram about the use of the framework from the client view}
+    \label{fig:flowChartFramework}
+ % \end{center}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{Stage I} consists in getting information of a car through reading
+    a QR code by any user or setting the QR code by a dealership. This stage requires 
+    that a company generates the genesis block after a vehicle has been manufactured. 
+    Details in Section~\ref{ssec:qrcode}.
+  \item \textbf{Stage II} consists in establishing a secure channel between any user
+    and the \blockchaincarnetwork. We
+    have used the TLS protocol because it is the standard in the
+    e-commerce and it has been subject to a lot of verification proofs.
+    Details in Section~\ref{sec:secureChannel}.
+  \item \textbf{Stage III} consists in getting services such as provenance or 
+    traceability. Some services require authentication, but others do not.
+    Details in Section~\ref{sec:getServices}.  
+  \item \textbf{Stage IV:} consists in set transactions, for example how to build
+    the genesis block within the  \blockchaincarnetwork. Authentication is required. 
+    Details in Section~\ref{sec:transactions}. 
+\end{itemize}
+
+\input{sections/notation}
