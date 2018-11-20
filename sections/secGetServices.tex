@@ -2,7 +2,8 @@
 \label{sec:getServices}
 Figure~\ref{fig:dfdForAuthServices} illustrates a Data Flow Diagram (DFD) about consuming  
 services and set transactions. The Figure shows the scenarios when authentication is or 
-not required. Independently of that, the secure channel is required.
+not required. Independently of that, the secure channel (described in Section~\ref{sec:secureChannel}) 
+is required.
 
 \begin{figure}[bt]
  %\begin{center}
@@ -35,26 +36,32 @@ not required. Independently of that, the secure channel is required.
 \subsection{Getting services without authentication}
 \label{ssec:getServNoAuth}
 We think that some services must be available for all users and without the need to be 
-authenticated (achieving thus transparency) for example, to know:
+authenticated 
+(Table~\ref{table:servicesPermits} defines what services require or not authentication), 
+achieving thus transparency. 
+For example, to know:
 \begin{itemize}
-    \item If a vehicle hold currently a theft report.
-    \item If a vehicle hold currently a debt report.
+    \item If a vehicle hold currently a theft or debt report.
+    %\item If a vehicle hold currently a debt report.
     \item Some basic characteristics such as \textit{trademark}, \textit{model}, 
         \textit{class}, \textit{version} and \textit{cylinders}.
 \end{itemize}
-Table~\ref{table:servicesPermits} defines what services require or not authentication.
 
-The network connection starts when a user $C$ contacts to the \blockchaincarnetwork through 
-miner $\Server$. Table~\ref{table:ProtGetServicesNoAuth} describes how to get services in
-Alice and Bob notation, the explanation is as follows:
+
+%The network connection starts when a user $C$ contacts to the \blockchaincarnetwork~ 
+%through miner $\Server$. 
+Table~\ref{table:ProtGetServicesNoAuth} describes how to get services without authentication,
+the explanation is as follows:
 \begin{itemize}
-  \item  The initial knowledge consists in all values learned by the client and the miner 
-        after completed the secure channel stage (described in Section~\ref{sec:secureChannel}).
+  \item  The initial knowledge consists in all values learned by the client, $C$, and the 
+    \blockchaincarnetwork~ $\Server$ after completed the secure channel stage 
+    (described in Section~\ref{sec:secureChannel}).
    \item The request of a service consists in sending an identity $C$, the data of the $QR$ code, and a 
         number $n$ denoting the number of service that is requested to be consumed. 
         The client ciphers  these messages using the secret key $K_{C\Server}$ obtained in
-        the secure channel stage (see Section~\ref{sec:secureChannel}).
-   \item The miner (having a copy of all blockchains within the \blockchaincarnetwork) verifies 
+        the secure channel stage. 
+        %(see Section~\ref{sec:secureChannel}).
+   \item The miner $\Server$ (having a copy of all blockchains within the \blockchaincarnetwork) verifies 
         if such a service can be consumed (according permissions) and then, 
         returns the answer $d$; ciphered using, again, the shared secret key $K_{C\Server}$. Finally,
         $C$ decodes the message and shows the information $d$ to the user.
@@ -84,7 +91,8 @@ Table~\ref{table:reqSessKey} summarizes the protocol
 in Alice\&Bob notation, its description is as follows: 
 \begin{itemize}
   \item Firstly, the user must establish a secure channel with the miner-vehicle-wallet\footnote{
-    we will use server-wallet to abbreviate miner-vehicle-wallet.} 
+    We will use server-wallet to abbreviate miner-vehicle-wallet.},
+    $K_{C\ServerW}$,
     (see Section~\ref{sec:secureChannel}). In this step all exchanged messages are ciphered 
     using the symmetric key $K_{C\ServerW}$, which was obtained during the TLS protocol. 
   \item Secondly, the user must generate his key pair (public and private) through
@@ -183,7 +191,7 @@ describes the authentication part and the explanation is as follows:
 Some services are available only after the authentication process, for example, to know:
 \begin{itemize}
     \item A history of owners
-    \item If the vehicle has been arrested and how many times
+    \item How many times the vehicle has been arrested 
     \item The number of penalties
     \item A history of taxes.
 \end{itemize}
@@ -191,7 +199,9 @@ Some services are available only after the authentication process, for example, 
 See Table~\ref{table:servicesPermits} to identify what services require authentication.
 Table~\ref{table:ProtGetServicesAuth} describes in Alice and Bob notation how to get services 
 requiring an authentication process, the explanation is similar to that in 
-Section~\ref{ssec:getServNoAuth}. As you can see, the difference with respects to 
+Section~\ref{ssec:getServNoAuth}, next we explain the differences. 
+
+As you can see, the difference with respects to 
 Table~\ref{table:ProtGetServicesNoAuth}, where authentication is not required, is that in steps
 1 and 2, the hashed message $Y$ is include.
 
