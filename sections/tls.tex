@@ -1,4 +1,4 @@
-\subsection{Stage II: Establishing a secure channel}
+\subsection{Establishing a secure channel}
 \label{sec:secureChannel}
 Messages transmitted on the Internet are sensitive to be seen for
 active or passive attackers who are able to manipulate them in order
@@ -6,8 +6,8 @@ to take advantage of the situation.
 
 Transport Layer Security (TLS) and its predecessor, Secure Socket
 Layer (SSL), is a \emph{cryptographic protocol} that works over the transport 
-layer of TCP/IP. This protocol allows client/server agents to communicate 
-securely by tunnelling a hostile network like Internet. 
+layer of the Internet Protocol (TCP/IP model). This protocol allows client/server 
+agents to communicate securely by tunnelling a hostile network like Internet. 
 
 %We have used the TLS protocol because, besides being the 
 %standard in e-commerce, the identity of the client is not
@@ -18,6 +18,7 @@ securely by tunnelling a hostile network like Internet.
 
 Table~\ref{table:sslAndtlsProtocol} shows the protocol in Alice and Bob 
 notation, it has been adapted from \cite{lopez13} and its explanation is as follows:
+\input{protocols/tlsProtocol}
 \begin{itemize}
   \item Initially, $\Server$ denotes a trusted miner server. $\Client$ denotes
     a user having read a QR code, and $\Servera$ denotes a server certification 
@@ -54,6 +55,5 @@ notation, it has been adapted from \cite{lopez13} and its explanation is as foll
     following transactions for encryption and decryption operations. This new
     knowledge will be used in the following stages.  
 \end{itemize}
-\input{protocols/tlsProtocol}
 
 

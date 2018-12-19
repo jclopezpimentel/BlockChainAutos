@@ -1,7 +1,13 @@
 \documentclass[10pt,journal,compsoc]{IEEEtran}
 \usepackage{graphicx, soul} 
-\usepackage{color, soul} % soul pachage must be removed when the paper is ready
+\usepackage{soul} % soul pachage must be removed when the paper is ready
+\usepackage{colortbl} % Biblioteca para el color
+\usepackage{color} % Biblioteca para el color
+\usepackage{xcolor} % Biblioteca para el color
+
 \usepackage{listings}
+\usepackage{hyperref}
+
 \include{lib/Authentication}
 
 \ifCLASSOPTIONcompsoc
@@ -17,6 +23,8 @@
 
 \begin{document}
         \newcommand{\blockchaincarnetwork}{\textit{vehicle blockchain network~}}
+        \newcommand{\duda}[1]{\textcolor{red}{\textit{#1}}}
+
         \input{sections/header.tex}
         
         %\tableofcontents    % this line must be removed

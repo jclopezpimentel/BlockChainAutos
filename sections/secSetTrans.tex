@@ -1,16 +1,17 @@
 \section{Transactions}
 \label{sec:transactions}
+A transaction is an exchange or transfer of goods, services, or funds where it can involve 
+two parties or things that reciprocally affect or influence each other. 
+As shown in Table~\ref{table:operations} the operations are involved in at least two parts (\textit{sell} and \textit{buy}, for instance). These parts are different roles that a client can 
+acts at different moments.
+
+
 
 \input{sections/roles} %added by JC
 
 
 \subsection{Set Transactions} 
 \label{ssec:setTrans}
-A transaction is an exchange or transfer of goods, services, or funds where it can involve 
-two parties or things that reciprocally affect or influence each other. As you can see in 
-Table~\ref{table:operations} the operations are involved in at least two parts (\textit{sell} and \textit{buy}, 
-for instance). 
-
 As shown by Table~\ref{table:ProtSetTrans} the participants in a transaction 
 are a client (acting any role, sometimes like \textbf{O}wner or \textbf{D}ealership, etc) and a miner.
 The client knows the $QR$ code through a scan process with
@@ -73,7 +74,7 @@ Let start with \textit{hB}, which is the \textit{body} being hashed:
 \begin{eqnarray}
             \textit{body}   & \Def  & \{  \textit{GenesisInfo}\} :: \{ \textit{GralBlockInfo} \}  \\ \nonumber 
                             &       & :: \{ \textit{TranInfo} \} 
-    \label{eq:block}
+    \label{eq:body}
 \end{eqnarray}
 
 \textit{GenesisInfo} is the JSON shown in Table~\ref{table:genesisInfo} that 
@@ -86,7 +87,7 @@ Next subsections we explain how \textit{GralBlockInfo} and \textit{TranInfo} are
 \subsubsection{General Block Information}
 \textit{GralBlockInfo} is shown in the following table:
 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     \caption{General Block Information}
         \begin{tabular}{lll}
@@ -107,8 +108,8 @@ Attribute \textit{timestamp} is used to identify when the block is created;
 \textit{miner} is hashed to identify the participant miner in the current 
 transaction;
 \textit{gas} is the cost $\$_1$ of the transaction;
-\textit{prevHash} specifies the previous hashed block, in this case is 0 because of the 
-genesis block.
+\textit{prevHash} specifies the previous hashed block, in this case, it is 0 
+when represents the genesis block.
 
 \subsubsection{Transaction part}
 Table~\ref{table:TranBlockInfo} shows \textit{TranInfo}, attribute \textit{pubKey} 
@@ -118,7 +119,7 @@ transaction (sometimes might be \textbf{O}wner, another the \textbf{D}ealership,
 \textit{type} in order to know the type of operation ("genesis", "sell", "buy", etc., see Table~\ref{table:operations}); 
 \textit{sign} to specify a sign of the block by client; and 
 \textit{operation} states a one way function that the block is able to execute (smart contract like Ethereum). 
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     \caption{Transaction Information}
         \begin{tabular}{lll}
